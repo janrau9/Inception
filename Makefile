@@ -1,20 +1,14 @@
-NAME = inception
+# Variables
+DOCKER_COMPOSE = docker-compose
+SRC_DIR = ./src
 
-all: up
+# Default target: build and run containers
+all:
+	$(DOCKER_COMPOSE) -f $(SRC_DIR)/docker-compose.yml up --build -d
 
-build:
-	docker-compose build
-
-up:
-	docker-compose up -d
-
-down:
-	docker-compose down
-
+# Clean up
 clean:
-	docker system prune -af
-	docker volume rm $(docker volume ls -q)
+	$(DOCKER_COMPOSE) -f $(SRC_DIR)/docker-compose.yml down --volumes --remove-orphans
 
-fclean: down clean
-
-re: fclean all
+# Rebuild and restart
+re: clean all
