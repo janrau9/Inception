@@ -1,11 +1,18 @@
 FROM debian:latest
 
-RUN apt-get update && apt-get install -y mariadb-server
+RUN apt-get update && apt-get upgrade && apt-get install -y mariadb-server
 
-COPY 50-server.cnf /etc/mysql/mariadb.conf.d/.
-COPY init.sql /etc/mysql/init.sql
-COPY script.sh .
+RUN mkdir -p /var/lib/mysql && chown -R mysql:mysql /var/lib/mysql
+RUN mkdir -p /var/run/mysqld && chown -R mysql:mysql /var/run/mysqld
 
-RUN mkdir /run/mysqld && chmod +x script.sh
+# initialize MariaDB system database and tables
+RUN mysql_install_db --user=mysql --datadir=/var/lib/mysql
 
-CMD ["./script.sh"]
+COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/.
+
+EXPOSE 3306
+
+COPY ./tools/script.sh /usr/local/bin/.
+RUN chmod +x /usr/local/bin/script.sh
+
+CMD ["./usr/local/bin/script.sh"]

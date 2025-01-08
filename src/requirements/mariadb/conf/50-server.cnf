@@ -13,12 +13,15 @@ init_file = /etc/mysql/init.sql
 #
 # * Basic Settings
 #
-
-user                    = root
+port                    = 3306
+user                    = mysql
 pid-file                = /run/mysqld/mysqld.pid
+socket                  = /run/mysqld/mysqld.sock
 basedir                 = /usr
 datadir                 = /var/lib/mysql
 tmpdir                  = /tmp
+skip-networking         = false
+bind-address            = 0.0.0.0
 
 # Broken reverse DNS slows down connections considerably and name resolve is
 # safe to skip if there are no "host by domain name" access grants
@@ -26,7 +29,6 @@ tmpdir                  = /tmp
 
 # Instead of skip-networking the default is now to listen only on
 # localhost which is more compatible and is not less secure.
-bind-address            = mariadb
 
 #
 # * Fine Tuning
