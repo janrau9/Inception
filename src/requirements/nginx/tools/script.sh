@@ -7,14 +7,18 @@ create_directories() {
     mkdir -p "$(dirname "${KEY_PATH}")"   # Ensure the directory for the key exists
 }
 
-# Function to generate SSL certificates
+# Function to generate SSL certificates if they don't exist
 generate_ssl_certificates() {
-    echo "Generating SSL certificates..."
-    openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-        -out "${CERT_PATH}" \
-        -keyout "${KEY_PATH}" \
-        -subj "/C=FI/L=Helsinki/O=Hive/OU=Student/CN=${DOMAIN_NAME}" > /dev/null 2>&1
-    echo "SSL certificates generated."
+    if [ -f "${CERT_PATH}" ] && [ -f "${KEY_PATH}" ]; then
+        echo "SSL certificates already exist. Skipping generation."
+    else
+        echo "Generating SSL certificates..."
+        openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+            -out "${CERT_PATH}" \
+            -keyout "${KEY_PATH}" \
+            -subj "/C=FI/L=Helsinki/O=Hive/OU=Student/CN=${DOMAIN_NAME}" > /dev/null 2>&1
+        echo "SSL certificates generated."
+    fi
 }
 
 # Function to configure Nginx with the domain name and certificate paths

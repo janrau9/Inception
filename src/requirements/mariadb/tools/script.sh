@@ -27,6 +27,7 @@ setup_database() {
             CREATE DATABASE $DB_NAME;
             CREATE USER IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED BY '$DB_PASSWORD';
             GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%';
+            ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_ROOT_PASSWORD';
             FLUSH PRIVILEGES;
         "
         log "Database $DB_NAME and user $DB_USER created successfully."
@@ -38,7 +39,7 @@ setup_database() {
 # Function to stop the temporary MariaDB process
 shutdown_mariadb_temp() {
     log "Shutting down temporary MariaDB instance..."
-    mysqladmin -u root shutdown
+    mysqladmin -u root -p$DB_ROOT_PASSWORD shutdown
 }
 
 # Function to start MariaDB in regular mode
