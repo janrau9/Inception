@@ -3,7 +3,7 @@ version: "3.8"
 services:
     nginx:
         build: requirements/nginx
-        image: nginx
+        image: nginx:jberay
         container_name: nginx
         depends_on:
             - wordpress
@@ -12,39 +12,40 @@ services:
         env_file:
             - .env
         volumes:
-            - ${WEB_CONTENT_PATH}:/var/www/html
+            - web_content:/var/www/html
         networks:
             - inception
-        restart:
-            - always
+        restart: always
 
     wordpress:
         build: requirements/wordpress
-        image: imageName
+        image: wordpress:jberay
         container_name: wordpress
+        ports:
+            - "9000"
         env_file:
             - .env
         depends_on:
             - mariadb
         volumes:
-            - ${WEB_CONTENT_PATH}:/var/www/html
+            - web_content:/var/www/html
         networks:
             - inception
-        restart:
-            - always
+        restart: always
 
     mariadb:
         build: requirements/mariadb
-        image: mariadb
+        image: mariadb:jberay
         container_name: mariadb
+        ports:
+            - "3306"
         env_file:
             - .env
         volumes:
-            - ${DB_DATA_PATH}:/var/lib/mysql
+            - db_data:/var/lib/mysql
         networks:
             - inception
-        restart:
-            - always
+        restart: always
 networks:
     inception:
         driver: bridge

@@ -7,6 +7,7 @@ log() {
 
 # Function to start MariaDB temporarily
 start_mariadb_temp() {
+    mysql_install_db --user=mysql --datadir=/var/lib/mysql
     log "Starting MariaDB temporarily for the WordPress database setup..."
     mysqld &
     log "Waiting for MariaDB to initialize..."
