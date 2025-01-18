@@ -1,5 +1,5 @@
 # Variables
-DOCKER_COMPOSE=docker-compose
+DOCKER_COMPOSE=docker compose
 SRC_DIR=./src
 DATA_DIR=/home/jberay/data
 WEB_DIR=$(DATA_DIR)/wp_data
