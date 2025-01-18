@@ -45,14 +45,14 @@ install_wordpress() {
 
 # Function to set permissions for WordPress files
 set_permissions() {
-    echo "Setting proper file permissions..."
+    log "Setting proper file permissions..."
     chown -R www-data:www-data /var/www/html
     chmod -R 755 /var/www/html
 }
 
 # Function to start PHP-FPM
 start_php_fpm() {
-    echo "Starting PHP-FPM..."
+    log "Starting PHP-FPM..."
     exec php-fpm8.2 -F
 }
 
@@ -64,7 +64,7 @@ main () {
         install_wp_cli
         install_wordpress
     else
-        echo "WordPress is already installed. Skipping installation."
+        log "WordPress is already installed. Skipping installation."
     fi
 
     set_permissions

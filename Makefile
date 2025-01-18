@@ -22,4 +22,4 @@ fclean: clean
 	$(DOCKER_COMPOSE) -f $(SRC_DIR)/docker-compose.yml down --volumes --remove-orphans --rmi all
 
 # Rebuild and restart
-re: clean all
+re: fclean all
